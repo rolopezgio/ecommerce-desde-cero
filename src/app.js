@@ -13,7 +13,7 @@ import { generaProducto } from './mocks/productos.mocks.js';
 
 import { router as vistasRouter } from './routes/vistasRouter.js';
 import { router as carritosRouter } from './routes/carritoRouter.js';
-import { router as sessionsRouter } from './routes/sessionsRouter.js';
+import sessionsRouter from './routes/sessionsRouter.js';
 import { CarritoDAO } from './dao/carrito.dao.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { CustomError, TIPOS_ERROR, error1, error2, error3, error4 } from './utils/errores.js';
@@ -47,7 +47,7 @@ app.use("/api/carritos", carritosRouter)
 
 app.get('/', (req, res) => {
     res.setHeader('Content-Type', 'text/plain');
-    res.status(200).send('OK');
+    res.status(200).send('home');
 })
 
 app.get('/prueba',(req,res)=>{
