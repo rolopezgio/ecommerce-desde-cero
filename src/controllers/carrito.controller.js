@@ -21,7 +21,6 @@ export const comprarCarrito=async(req,res,next)=>{
         let conStock=[]
         let sinStock=[]
 
-        // carrito.productos.forEach()
         for(let i=0; i<carrito.productos.length;i++){
             let codigo=carrito.productos[i].producto._id
             let cantidad=carrito.productos[i].cantidad
@@ -69,8 +68,7 @@ export const comprarCarrito=async(req,res,next)=>{
         carrito.productos=sinStock
         await carritoService.update(idCarrito, carrito)
 
-        res.setHeader('Content-Type','application/json')
-        res.status(200).json({nuevoTicket})
+        res.render('ticket', { nuevoTicket });
     } catch (error) {
         return next(error)
     }
@@ -83,42 +81,32 @@ export const getCarritoById=async(req,res,next)=>{
 
     let carrito
     try {
-        // llamar al dao.findById...
         carrito=await carritoService.getById(idCarrito)
-        // let carrito=carritos.find(c=>c._id===req.params.idCarrito)
     } catch (error) {
         return next(error)
     }
 
-    res.setHeader('Content-Type','application/json')
-    res.status(200).json({carrito})
+    let total = 0;
+    carrito.productos.forEach(p => {
+        total += p.cantidad * p.producto.precio;
+    });
+
+    console.log(carrito);
+    res.render('carrito', {carrito, productos:carrito.productos, total, idCarrito})
 }
 
 export const agregaProductoCarrito=async(req, res)=>{
 
     let {idCarrito, idProducto}=req.params
 
-    // llamar al dao.findById...
     let carrito=await carritoService.getById(idCarrito)
-    // let indiceCarrito=carritos.findIndex(c=>c._id===idCarrito)
     if(!carrito){
         res.setHeader('Content-Type','application/json');
         return res.status(500).json({error:`Error inesperado en el servidor - Intente más tarde, o contacte a su administrador`})
     }
 
     let indiceProducto=carrito.productos.findIndex(p=>p.producto._id==idProducto)
-    // let indiceProducto=carrito.productos.findIndex(p=>{
-
-    //     console.log(p)
-    //     console.log(p.producto)
-    //     console.log(idProducto)
-
-    //     return p.producto===idProducto
-    // })
-
-
     if(indiceProducto!==-1){
-        // carritos[indiceCarrito].productos[indiceProducto].cantidad++
         carrito.productos[indiceProducto].cantidad++
     }else{
         carrito.productos.push({producto:idProducto, cantidad:1})
@@ -128,7 +116,5 @@ export const agregaProductoCarrito=async(req, res)=>{
     carrito=await carritoService.getById(idCarrito)
 
     res.setHeader('Content-Type','application/json');
-    // return res.status(200).json({carritoActualizado:carritos[indiceCarrito]});
     return res.status(200).json({carritoActualizado:carrito});
-
 }

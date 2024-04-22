@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+</head>
+<body>
+    <h1>Tu carrito de Compras😁</h1>
+    
+    <h2>Productos en el carrito:</h2>
+    <ul>
+        {{#each productos}}
+            <li>{{producto.descrip}} - Cantidad: {{cantidad}} - $ {{producto.precio}}</li>
+        {{/each}}
+    </ul>
+
+    <h2>TOTAL: {{total}} </h2>
+
+    <h2>Enlace de Compra:</h2>
+    <a href="/api/carritos/{{idCarrito}}/comprar" target="_blank">Confirma tu compra</a>
+</body>
+</html>

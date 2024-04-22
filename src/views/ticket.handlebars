@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket de compra</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .detalle {
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>¡Gracias por tu compra!🥳</h1>
+        <div class="info">
+            <p>Código de compra: {{ nuevoTicket.codigo }}</p>
+            <p>Fecha de compra: {{ nuevoTicket.fecha }}</p>
+            <p>Email: {{ nuevoTicket.email }}</p>
+        </div>
+        <div class="detalle">
+            <h2>Detalle de la compra</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Descripción</th>
+                        <th>Cantidad</th>
+                        <th>Precio unitario</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each nuevoTicket.detalle}}
+                    <tr>
+                        <td>{{ this.codigo }}</td>
+                        <td>{{ this.descrip }}</td>
+                        <td>{{ this.cantidad }}</td>
+                        <td>${{ this.precio }}</td>
+                        <td>${{ this.subtotal }}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            <p>Total: ${{ nuevoTicket.importe }}</p>
+        </div>
+    </div>
+</body>
+</html>
